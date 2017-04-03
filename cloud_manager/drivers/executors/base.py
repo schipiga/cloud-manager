@@ -1,10 +1,13 @@
-class CommandExecutor(object):
+from cloud_manager.config import Configurable
+
+
+class CommandExecutor(Configurable):
 
     def execute(self):
         pass
 
 
-class MachineExecutor(object):
+class MachineExecutor(Configurable):
 
     def poweroff(self):
         pass

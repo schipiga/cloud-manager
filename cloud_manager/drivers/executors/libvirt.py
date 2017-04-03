@@ -2,4 +2,9 @@ from .base import MachineExecutor
 
 
 class LibvirtExecutor(MachineExecutor):
-    pass
+
+    def poweron(self, host):
+        self._find_domain(host).create()
+
+    def poweroff(self, host):
+        self._find_domain(host).destroy()
