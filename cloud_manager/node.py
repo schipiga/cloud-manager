@@ -1,8 +1,8 @@
-from .driver import Driverable
+from .collection import CloudCollection
 from .service import ServiceCollection
 
 
-class NodeCollection(Driverable):
+class NodeCollection(CloudCollection):
 
     def __init__(self,
                  config,
@@ -11,7 +11,7 @@ class NodeCollection(Driverable):
                  all_services=None):
         super(NodeCollection, self).__init__(config)
 
-        self._hosts = set()
+        self._hosts = self._resources
         for node in self._config['cloud']['nodes']:
             should_add = True
             added_host = None
@@ -44,8 +44,7 @@ class NodeCollection(Driverable):
                 self._hosts.add(added_host)
 
     def poweron(self):
-        for host in self._nodes_config['hosts']:
-            self._driver.poweron(host)
+        self._driver.poweron(self._hosts)
 
     def poweroff(self):
         pass

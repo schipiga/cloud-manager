@@ -2,4 +2,8 @@ from .base import CommandExecutor
 
 
 class AnsibleExecutor(CommandExecutor):
-    pass
+
+    def execute(self, cmd, hosts):
+        task = {'hosts': hosts, 'tasks': [{'shell': cmd}]}
+        result = self.run_playbook(task)
+        return result

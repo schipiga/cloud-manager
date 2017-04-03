@@ -1,8 +1,8 @@
-from .driver import Driverable
+from .collection import CloudCollection
 from .node import NodeCollection
 
 
-class ServiceCollection(Driverable):
+class ServiceCollection(CloudCollection):
 
     def __init__(self,
                  config,
@@ -11,7 +11,7 @@ class ServiceCollection(Driverable):
                  all_hosts=None):
         super(ServiceCollection, self).__init__(config)
 
-        self._services = set()
+        self._services = self._resources()
         for node in self._config['cloud']['nodes']:
             added_services = None
 
@@ -23,14 +23,14 @@ class ServiceCollection(Driverable):
                 added_services = set(node['services'])
 
             if added_services:
-                self._services ^= added_services
+                self._services |= added_services
 
         if any_hosts:
             intersec_services = set()
             for node in self._config['cloud']['nodes']:
                 for host in any_hosts:
                     if host in node['hosts']:
-                        intersec_services ^= set(node['services'])
+                        intersec_services |= set(node['services'])
 
             self._services &= intersec_services
 

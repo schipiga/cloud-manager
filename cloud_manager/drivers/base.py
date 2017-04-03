@@ -15,3 +15,12 @@ class CloudDriver(Configurable):
 
     def poweron(self, host):
         self._machine_executor.poweron(host)
+
+    def start_service(self, service_name, host):
+        pass
+
+    def stop_service(self, service_name, host):
+        pass
+
+    def restart_service(self, service_name, host):
+        pass
