@@ -4,4 +4,8 @@ __all__ = ['MosDriver']
 
 
 class MosDriver(CloudDriver):
-    pass
+
+    _services = {
+        'keystone': {'id': 'apache2',
+                     'type': 'linux'}
+    }

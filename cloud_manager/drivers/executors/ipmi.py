@@ -1,5 +1,7 @@
 from .base import MachineExecutor
 
+__all__ = ['IpmiExecutor']
+
 
 class IpmiExecutor(MachineExecutor):
 

@@ -1,45 +1,36 @@
-import attrdict
-import yaml
+"""
+------
+Config
+------
+
+Supported formats are json, yaml.
+Example in json:
+
+{
+    "services": {
+        "keystone": {"id": "apache2", "type": "linux"},
+        "horizon": {"id": "apache2", "type": "linux"},
+        "rabbitmq": {"id": "p_rabbitmq-server", "type": "pcs"}
+    },
+    "cloud": {
+        "type": "mos",
+        "ssh": {"username": "admin", "password": "admin"},
+        "nodes": [
+            {"hosts": ["192.168.0.1", "192.168.1.1"],
+             "ssh": {"username": "root", "password": "root"},
+             "services": ["keystone", "horizon", "nova"]
+            },
+            {"hosts": ["192.168.0.2", "192.168.1.2"]}
+        ]
+    },
+    "hardware": {"type": "virtual"}
+}
+"""
+
+__all__ = ['Configurable']
 
 
 class Configurable(object):
 
     def __init__(self, config):
         self._config = config
-
-
-class Config(object):
-
-    devstack = {
-        'services': {
-            'keystone': {'id': 'apache2',
-                         'type': 'linux'}
-        }
-    }
-
-    mcp = {
-        'services': {
-            'keystone': {'id': 'keystone',
-                         'type': 'salt'}
-        }
-    }
-
-    mos = {
-        'services': {
-            'keystone': {'id': 'apache2',
-                         'type': 'linux'}
-        }
-    }
-
-    @classmethod
-    def from_file(cls, config_path):
-        with open(config_path) as config_file:
-            config = yaml.safe_load(config_file.read())
-        return cls._merge_with_default(config)
-
-    @classmethod
-    def _merge_with_default(cls, config):
-        default = {'devstack': cls.devstack,
-                   'mcp': cls.mcp,
-                   'mos': cls.mos}[config['cloud']['type']]
-        return attrdict.merge.merge(default, config)

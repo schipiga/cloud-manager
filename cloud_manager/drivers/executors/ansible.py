@@ -1,5 +1,7 @@
 from .base import CommandExecutor
 
+__all__ = ['AnsibleExecutor']
+
 
 class AnsibleExecutor(CommandExecutor):
 

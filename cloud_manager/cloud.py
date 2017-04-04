@@ -1,12 +1,18 @@
-from .config import Configurable, Config
+import yaml
+
+from .config import Configurable
 from .node import NodeCollection
 from .service import ServiceCollection
+
+__all__ = ['Cloud']
 
 
 class Cloud(Configurable):
 
     def __init__(self, config=None, config_path=None):
-        config = config or Config.from_file(config_path)
+        if not config:
+            with open(config_path) as config_file:
+                config = yaml.safe_load(config_file.read())
         super(Cloud, self).__init__(config)
 
     def connect(self):

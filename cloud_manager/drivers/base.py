@@ -2,11 +2,15 @@ from cloud_manager.config import Configurable
 
 from .executors import AnsibleExecutor, IpmiExecutor, LibvirtExecutor
 
+__all__ = ['CloudDriver']
+
 
 class CloudDriver(Configurable):
 
     def __init__(self, config):
         super(CloudDriver, self).__init__(config)
+        self._inject_services()
+
         self._command_executor = AnsibleExecutor(self._config)
         self._machine_executor = {
             'virtual': LibvirtExecutor,
@@ -82,3 +86,12 @@ class CloudDriver(Configurable):
             raise ValueError('Undefined service type: ' + s_type)
 
         return cmd
+
+    def _inject_services(self):
+        config_services = self._config.setdefault('services', {})
+        for key, val in self._services:
+            config_services.setdefault(key, val)
+
+    @property
+    def _services(self):
+        raise NotImplemented()

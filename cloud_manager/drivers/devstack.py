@@ -4,4 +4,8 @@ __all__ = ['DevstackDriver']
 
 
 class DevstackDriver(CloudDriver):
-    pass
+
+    _services = {
+        'keystone': {'id': 'apache2',
+                     'type': 'linux'}
+    }

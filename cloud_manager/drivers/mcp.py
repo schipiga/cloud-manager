@@ -4,4 +4,8 @@ __all__ = ['McpDriver']
 
 
 class McpDriver(CloudDriver):
-    pass
+
+    _services = {
+        'keystone': {'id': 'keystone',
+                     'type': 'salt'}
+    }

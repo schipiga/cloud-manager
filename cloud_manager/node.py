@@ -1,6 +1,8 @@
 from .collection import CloudCollection
 from .service import ServiceCollection
 
+__all__ = ['NodeCollection']
+
 
 class NodeCollection(CloudCollection):
 

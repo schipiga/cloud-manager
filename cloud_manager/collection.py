@@ -1,5 +1,7 @@
 from .config import Configurable
-from .drivers import DevstackDriver, McpDriver, MosDriver
+from .drivers import drivers
+
+__all__ = ['CloudCollection']
 
 
 class CloudCollection(Configurable):
@@ -7,12 +9,7 @@ class CloudCollection(Configurable):
     def __init__(self, config, resources=None):
         super(CloudCollection, self).__init__(config)
         self._resources = set(resources) or set()
-
-        self._driver = {
-            'devstack': DevstackDriver,
-            'mcp': McpDriver,
-            'mos': MosDriver
-        }[self._config['cloud']['type']](self._config)
+        self._driver = drivers[self._config['cloud']['type']](self._config)
 
         for node in self._config['cloud']['nodes']:
             if not node.get('services'):
