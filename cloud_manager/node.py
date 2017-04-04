@@ -47,22 +47,25 @@ class NodeCollection(CloudCollection):
         self._driver.poweron(self._hosts)
 
     def poweroff(self):
-        pass
+        self._driver.poweroff(self._hosts)
 
     def reset(self):
-        pass
+        self._driver.reset(self._hosts)
 
     def reboot(self):
-        pass
+        self._driver.reboot(self._hosts)
 
     def shutdown(self):
-        pass
+        self._driver.shutdown(self._hosts)
 
     def snapshot(self):
-        pass
+        self._driver.snapshot(self._hosts)
 
     def revert(self):
-        pass
+        self._driver.revert(self._hosts)
+
+    def execute(self, cmd):
+        self._driver.execute(cmd, self._hosts)
 
     def connect(self):
         pass

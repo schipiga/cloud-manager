@@ -6,7 +6,7 @@ class CloudCollection(Configurable):
 
     def __init__(self, config, resources=None):
         super(CloudCollection, self).__init__(config)
-        self._resources = resources or set()
+        self._resources = set(resources) or set()
 
         self._driver = {
             'devstack': DevstackDriver,

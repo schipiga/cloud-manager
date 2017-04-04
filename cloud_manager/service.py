@@ -11,7 +11,7 @@ class ServiceCollection(CloudCollection):
                  all_hosts=None):
         super(ServiceCollection, self).__init__(config)
 
-        self._services = self._resources()
+        self._services = self._resources
         for node in self._config['cloud']['nodes']:
             added_services = None
 
@@ -46,19 +46,27 @@ class ServiceCollection(CloudCollection):
 
             self._services &= intersec_services
 
+    def start(self):
+        for service_name in self._services:
+            hosts = self._hosts(service_name)
+            self._driver.start_service(service_name, hosts)
+
+    def stop(self):
+        for service_name in self._services:
+            hosts = self._hosts(service_name)
+            self._driver.stop_service(service_name, hosts)
+
     def restart(self):
         for service_name in self._services:
-            hosts = self._get_hosts(service_name)
+            hosts = self._hosts(service_name)
             self._driver.restart_service(service_name, hosts)
-
-    def poweron(self):
-        pass
-
-    def poweroff(self):
-        pass
-
-    def terminate(self):
-        pass
 
     def get_nodes(self):
         return NodeCollection(self._config, any_services=self._services)
+
+    def _hosts(self, service_name):
+        hosts = []
+        for node in self._config['cloud']['nodes']:
+            if service_name in node['services']:
+                hosts.append(node['hosts'][0])
+        return hosts
